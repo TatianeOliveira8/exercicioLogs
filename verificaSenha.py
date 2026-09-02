@@ -2,10 +2,6 @@ import sys
 import re
 from collections import defaultdict
 
-if len(sys.argv) != 2:
-    print('Uso: python3 verificaSenha.py <arquivo_log>')
-    sys.exit(1)
-
 caminho_arquivo = sys.argv[1]
 contador_por_usuario = defaultdict(int)
 
