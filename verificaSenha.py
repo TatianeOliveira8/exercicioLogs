@@ -9,15 +9,17 @@ if len(sys.argv) != 2:
 caminho_arquivo = sys.argv[1]
 contador_por_usuario = defaultdict(int)
 
-padrao = re.compile(
-    r'Failed password for (?:invalid user )?(\S+) from|authentication failure;.*?user=(\S+)'
-)
+padrao1 = re.compile(r'Failed password for (?:invalid user )?(\S+) from')
+padrao2 = re.compile(r'authentication failure;.*?user=(\S+)')
 
-with open(caminho_arquivo, 'r', encoding='utf-8', errors='ignore') as arquivo:
+with open(caminho_arquivo) as arquivo:
+
     for linha in arquivo:
-        resultado = padrao.search(linha)
+        resultado = padrao1.search(linha)
+        if not resultado:
+            resultado = padrao2.search(linha)
         if resultado:
-            usuario = resultado.group(1) or resultado.group(2)
+            usuario = resultado.group(1)
             contador_por_usuario[usuario] += 1
 
 for usuario, quantidade in sorted(contador_por_usuario.items()):
